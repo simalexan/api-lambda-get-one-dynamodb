@@ -61,7 +61,7 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /{items}
+            Path: /{items}/{id}
             Method: GET
             RestApiId: !Ref GetOneApi
   DynamoDBTable:
