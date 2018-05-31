@@ -27,8 +27,17 @@ Resources:
           title:
             Ref: AWS::StackName
         paths:
-          /get:
-            post:
+          /{items}/{id}:
+            get:
+              parameters:
+              - name: items
+                in: path
+                required: true
+                type: string
+              - name: id
+                in: path
+                required: true
+                type: string
               responses: {}
               x-amazon-apigateway-integration:
                 httpMethod: POST
@@ -45,7 +54,6 @@ Resources:
           TABLE_NAME: !Ref TableName
           IS_CORS: IsCorsDefined
           CORS_ORIGIN: !Ref CorsOrigin
-          PRIMARY_KEY: !Sub ${TableName}Id
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TableName
@@ -53,8 +61,8 @@ Resources:
         Api:
           Type: Api
           Properties:
-            Path: /get
-            Method: POST
+            Path: /{items}
+            Method: GET
             RestApiId: !Ref GetOneApi
   DynamoDBTable:
     Type: AWS::DynamoDB::Table
@@ -75,8 +83,8 @@ Resources:
         StreamViewType: NEW_IMAGE
 Outputs:
   ApiUrl:
-    Value: !Sub https://${GetOneApi}.execute-api.${AWS::Region}.amazonaws.com/prod/get
-    Description: The URL of the API Gateway you invoke with a GET request to retrieve all of your items in the DynamoDB Table.
+    Value: !Sub https://${GetOneApi}.execute-api.${AWS::Region}.amazonaws.com/prod/${TableName}/some-id
+    Description: The URL of the API Gateway you invoke with a GET request to retrieve all of your items in the DynamoDB Table. Don't forget to change the some-id to an id in your database.
   DynamoDBTableArn:
     Value: !GetAtt DynamoDBTable.Arn
     Description: The ARN of your DynamoDB Table

@@ -3,19 +3,18 @@ const dynamoDb = new AWS.DynamoDB.DocumentClient();
 const processResponse = require('./process-response');
 const TABLE_NAME = process.env.TABLE_NAME;
 const IS_CORS = true;
-const PRIMARY_KEY = process.env.PRIMARY_KEY;
 
 exports.handler = (event) => {
     if (event.httpMethod === 'OPTIONS') {
 		return Promise.resolve(processResponse(IS_CORS));
     }
-    const requestedProductId = event.pathParameters[PRIMARY_KEY];
-    if (!requestedProductId) {
+    const requestedItemId = event.pathParameters.id;
+    if (!requestedItemId) {
         return Promise.resolve(processResponse(IS_CORS, 'invalid', 400));
     }
 
     const key = {};
-    key[PRIMARY_KEY] = requestedProductId;
+    key[PRIMARY_KEY] = requestedItemId;
     const params = {
         TableName: TABLE_NAME,
         Key: key
