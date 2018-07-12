@@ -1,8 +1,8 @@
-const AWS = require('aws-sdk');
-const dynamoDb = new AWS.DynamoDB.DocumentClient();
-const processResponse = require('./process-response');
-const TABLE_NAME = process.env.TABLE_NAME;
-const IS_CORS = true;
+const AWS = require('aws-sdk'),
+    dynamoDb = new AWS.DynamoDB.DocumentClient(),
+    processResponse = require('./process-response'),
+    TABLE_NAME = process.env.TABLE_NAME,
+    IS_CORS = true;
 
 exports.handler = (event) => {
     if (event.httpMethod === 'OPTIONS') {
