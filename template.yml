@@ -54,6 +54,7 @@ Resources:
           TABLE_NAME: !Ref TableName
           IS_CORS: IsCorsDefined
           CORS_ORIGIN: !Ref CorsOrigin
+          PRIMARY_KEY: !Sub ${TableName}Id
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TableName

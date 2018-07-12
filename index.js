@@ -2,6 +2,7 @@ const AWS = require('aws-sdk'),
     dynamoDb = new AWS.DynamoDB.DocumentClient(),
     processResponse = require('./process-response'),
     TABLE_NAME = process.env.TABLE_NAME,
+    PRIMARY_KEY = process.env.PRIMARY_KEY,
     IS_CORS = true;
 
 exports.handler = (event) => {
