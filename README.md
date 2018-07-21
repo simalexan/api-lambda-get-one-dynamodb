@@ -22,8 +22,7 @@ It's a Nuts & Bolts application component for AWS Serverless Application Reposit
 Added a few fixes regarding datatable naming:
 
 - Enabled underscore `_` as an enabled character in the table name
-- Fixed the CORS issue, now the GET requests are CORS enabled as well
-- Added a `ValidationException` Reserved Keywords error response reply
+- Fixed the CORS issue, now the GET request is CORS enabled as well
 
 ## Roadmap - Upcoming changes
 
