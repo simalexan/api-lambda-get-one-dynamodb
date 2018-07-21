@@ -3,7 +3,7 @@ const AWS = require('aws-sdk'),
     processResponse = require('./process-response'),
     TABLE_NAME = process.env.TABLE_NAME,
     PRIMARY_KEY = process.env.PRIMARY_KEY,
-    IS_CORS = true;
+    IS_CORS = process.env.IS_CORS;
 
 exports.handler = (event) => {
     if (event.httpMethod === 'OPTIONS') {
@@ -11,7 +11,7 @@ exports.handler = (event) => {
     }
     const requestedItemId = event.pathParameters.id;
     if (!requestedItemId) {
-        return Promise.resolve(processResponse(IS_CORS, 'invalid', 400));
+        return Promise.resolve(processResponse(IS_CORS, `Error: You missing the id parameter`, 400));
     }
 
     const key = {};
