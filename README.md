@@ -6,8 +6,7 @@
 This is a serverless component consisting of:
 
 - an API Gateway, receiving the request data
-- a Lambda function, processes the request params and gets **one** item from
-- a DynamoDB table, where all your data is stored.
+- a Lambda function, processes the request params and gets **one** item from an existing DynamoDB Table
 
 Aside from this main functionality, its important features are:
 
@@ -30,4 +29,3 @@ Here are the upcoming changes that I'll add to this serverless component:
 
 - ESLint
 - Tests
-- Conditional DynamoDB table creation

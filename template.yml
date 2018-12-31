@@ -3,8 +3,7 @@ Transform: AWS::Serverless-2016-10-31
 Parameters:
   TableName:
     Type: String
-    Default: 'yourTableName'
-    Description: (Required) The name of the new DynamoDB table you want to create and save to. Minimum 3 characters
+    Description: (Required) The name of the existing DynamoDB table you want to get one record from. Minimum 3 characters.
     MinLength: 3
     MaxLength: 50
     AllowedPattern: ^[A-Za-z_]+$
@@ -65,30 +64,16 @@ Resources:
             Path: /{items}/{id}
             Method: GET
             RestApiId: !Ref GetOneApi
-  DynamoDBTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: !Ref TableName
-      AttributeDefinitions:
-        -
-          AttributeName: !Sub ${TableName}Id
-          AttributeType: S
-      KeySchema:
-        -
-          AttributeName: !Sub ${TableName}Id
-          KeyType: HASH
-      ProvisionedThroughput:
-        ReadCapacityUnits: 1
-        WriteCapacityUnits: 1
-      StreamSpecification:
-        StreamViewType: NEW_IMAGE
+        OptionsApi:
+          Type: Api
+          Properties:
+            Path: /{items}/{id}
+            Method: OPTIONS
+            RestApiId: !Ref GetOneApi
 Outputs:
   ApiUrl:
     Value: !Sub https://${GetOneApi}.execute-api.${AWS::Region}.amazonaws.com/prod/${TableName}/some-id
     Description: The URL of the API Gateway you invoke with a GET request to retrieve all of your items in the DynamoDB Table. Don't forget to change the some-id to an id in your database.
-  DynamoDBTableArn:
-    Value: !GetAtt DynamoDBTable.Arn
-    Description: The ARN of your DynamoDB Table
-  DynamoDBTableStreamArn:
-    Value: !GetAtt DynamoDBTable.StreamArn
-    Description: The ARN of your DynamoDB Table Stream
+  DynamoDBTable:
+    Value: !Ref TableName
+    Description: The name of the DynamoDB Table
