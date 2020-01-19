@@ -10,7 +10,7 @@ Parameters:
     ConstraintDescription: 'Required. Can be characters and underscore only. No numbers or special characters allowed.'
   CorsOrigin:
     Type: String
-    Default: ''
+    Default: "'*'"
     Description: (Optional) Cross-origin resource sharing (CORS) Origin. You can specify a single origin, all "*" or leave empty and no CORS will be applied.
     MaxLength: 250
 Conditions:
@@ -63,12 +63,6 @@ Resources:
           Properties:
             Path: /{items}/{id}
             Method: GET
-            RestApiId: !Ref GetOneApi
-        OptionsApi:
-          Type: Api
-          Properties:
-            Path: /{items}/{id}
-            Method: OPTIONS
             RestApiId: !Ref GetOneApi
 Outputs:
   ApiUrl:
