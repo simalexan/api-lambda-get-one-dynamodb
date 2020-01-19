@@ -47,7 +47,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      Runtime: nodejs8.10
+      Runtime: nodejs12.x
       Environment:
         Variables:
           TABLE_NAME: !Ref TableName
@@ -74,6 +74,6 @@ Outputs:
   ApiUrl:
     Value: !Sub https://${GetOneApi}.execute-api.${AWS::Region}.amazonaws.com/prod/${TableName}/some-id
     Description: The URL of the API Gateway you invoke with a GET request to retrieve all of your items in the DynamoDB Table. Don't forget to change the some-id to an id in your database.
-  DynamoDBTable:
+  DynamoDBTableName:
     Value: !Ref TableName
     Description: The name of the DynamoDB Table
