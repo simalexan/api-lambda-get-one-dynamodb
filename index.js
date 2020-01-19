@@ -5,13 +5,13 @@ const AWS = require('aws-sdk'),
     PRIMARY_KEY = process.env.PRIMARY_KEY,
     IS_CORS = process.env.IS_CORS;
 
-exports.handler = (event) => {
+exports.handler = async event => {
     if (event.httpMethod === 'OPTIONS') {
-		return Promise.resolve(processResponse(IS_CORS));
+		return processResponse(IS_CORS);
     }
     const requestedItemId = event.pathParameters.id;
     if (!requestedItemId) {
-        return Promise.resolve(processResponse(IS_CORS, `Error: You missing the id parameter`, 400));
+        return processResponse(IS_CORS, `Error: You missing the id parameter`, 400);
     }
 
     const key = {};
@@ -20,11 +20,15 @@ exports.handler = (event) => {
         TableName: TABLE_NAME,
         Key: key
     }
-    return dynamoDb.get(params)
-    .promise()
-    .then(response => processResponse(IS_CORS, response.Item))
-    .catch(err => {
-        console.log(err);
-        return processResponse(IS_CORS, 'dynamo-error', 500);
-    });
+    try {
+      const response = await dynamoDb.get(params).promise();
+      return processResponse(IS_CORS, response.Item);
+    } catch (dbError) {
+      let errorResponse = `Error: Execution update, caused a Dynamodb error, please look at your logs.`;
+      if (dbError.code === 'ValidationException') {
+        if (dbError.message.includes('reserved keyword')) errorResponse = `Error: You're using AWS reserved keywords as attributes`;
+      }
+      console.log(dbError);
+      return processResponse(IS_CORS, errorResponse, 500);
+    }
 };

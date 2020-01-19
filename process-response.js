@@ -4,7 +4,7 @@ module.exports = (isCors, body, statusCode) => {
     if (isCors) {
         Object.assign(headers, {
             'Access-Control-Allow-Headers': 'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token',
-            'Access-Control-Allow-Methods': 'OPTIONS,GET',
+            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
             'Access-Control-Allow-Origin': process.env.CORS_ORIGIN,
             'Access-Control-Max-Age': '86400'
         });
